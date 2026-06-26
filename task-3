@@ -1,0 +1,60 @@
+import java.util.Scanner;
+
+public class ATM {
+
+    public static void main(String[] args) {
+
+        try (Scanner sc = new Scanner(System.in)) {
+            Gourav_3 user = new Gourav_3("12345", "6789", 10000);
+            
+            TransactionHistory history = new TransactionHistory();
+            
+            System.out.println("===== Welcome to ATM =====");
+            
+            System.out.print("Enter User ID: ");
+            String userId = sc.next();
+            
+            System.out.print("Enter PIN: ");
+            String pin = sc.next();
+            
+            if (!user.getUserId().equals(userId) ||
+                    !user.getPin().equals(pin)) {
+                
+                System.out.println("Invalid User ID or PIN.");
+                sc.close();
+                return;
+            }
+            
+            System.out.println("\nLogin Successful!");
+            
+            ATMOperations operations =
+                    new ATMOperations(user, history, sc);
+            
+            int choice;
+            
+            do {
+                System.out.println("\n===== ATM MENU =====");
+                System.out.println("1. Transaction History");
+                System.out.println("2. Withdraw");
+                System.out.println("3. Deposit");
+                System.out.println("4. Transfer");
+                System.out.println("5. Check Balance");
+                System.out.println("6. Quit");
+                
+                System.out.print("Enter your choice: ");
+                choice = sc.nextInt();
+                
+                switch (choice) {
+                    case 1 -> history.showHistory();
+                    case 2 -> operations.withdraw();
+                    case 3 -> operations.deposit();
+                    case 4 -> operations.transfer();
+                    case 5 -> operations.showBalance();
+                    case 6 -> System.out.println("Thank you for using the ATM.");
+                    default -> System.out.println("Invalid choice.");
+                }
+                
+            } while (choice != 6);
+        }
+    }
+}
